@@ -3,10 +3,10 @@ import axios from 'axios';
 const url = 'http://localhost:3001';
 
 export const fetchPaintingsData = async () => {
-  return axios
-    .get(`${url}/paintings`)
-    .then((res) => {
-      return res.data;
+  return fetch(`${url}/paintings`)
+    .then((res) => res.json())
+    .then((response) => {
+      return response;
     })
     .catch((err) => {
       console.error(err);
@@ -14,10 +14,10 @@ export const fetchPaintingsData = async () => {
 };
 
 export const fetchPaintingDetails = async (id) => {
-  return axios
-    .get(`${url}/details/${id}`)
-    .then((res) => {
-      return res.data;
+  return fetch(`${url}/details/${id}`)
+    .then((res) => res.json())
+    .then((response) => {
+      return response;
     })
     .catch((err) => {
       console.error(err);
