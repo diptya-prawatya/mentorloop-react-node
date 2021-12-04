@@ -8,12 +8,7 @@ import useScreenOrientation from 'react-hook-screen-orientation';
 
 import { fetchPaintingDetails } from './api';
 import { getAllPaintings } from './utils';
-import { imageLandscapeStyles, imagePotraitStyles, loadingStyles, modalStyles } from './styles';
-
-function isLandscape() {
-  console.log('landscape');
-  return window.orientation === 90 || window.orientation === -90;
-}
+import { imageLandscapeStyles, imagePortraitsStyles, loadingStyles, modalStyles } from './styles';
 
 Modal.setAppElement('#root');
 
@@ -65,7 +60,7 @@ function App() {
                 screenOrientation === 'landscape-primary' ||
                 screenOrientation === 'landscape-secondary'
                   ? imageLandscapeStyles
-                  : imagePotraitStyles
+                  : imagePortraitsStyles
               }></img>
           </div>
         ))}

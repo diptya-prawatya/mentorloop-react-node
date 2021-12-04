@@ -4,7 +4,7 @@ export const imageLandscapeStyles = {
   margin: 'auto'
 };
 
-export const imagePotraitStyles = {
+export const imagePortraitsStyles = {
   height: '1920px',
   width: '1200px',
   margin: 'auto'
