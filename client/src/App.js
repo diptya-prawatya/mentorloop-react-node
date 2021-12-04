@@ -2,21 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
+import Loader from 'react-loader-spinner';
+import Modal from 'react-modal';
 
 import { fetchPaintingDetails } from './api';
 import { getAllPaintings } from './utils';
-
-import Modal from 'react-modal';
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    transform: 'translate(-50%, -50%)',
-    padding: '2em'
-  }
-};
+import { imageStyles, loadingStyles, modalStyles } from './styles';
 
 Modal.setAppElement('#root');
 
@@ -37,6 +28,7 @@ function App() {
 
   const onClickButton = async (id) => {
     const clicked = await fetchPaintingDetails(id);
+
     setDetails(clicked);
     setSlide(false);
     setShow(true);
@@ -52,38 +44,32 @@ function App() {
   }, []);
 
   return loading ? (
-    <p>Loading...</p>
+    <Loader type="ThreeDots" color="#00BFFF" height={100} width={100} style={loadingStyles} />
   ) : (
-    <Carousel autoPlay={slide} interval={10000} infiniteLoop={true} showThumbs={false}>
-      {data.map((key, index) => (
-        <>
-          <div key={index} onClick={() => onClickButton(data[index].objectID)}>
-            <img src={`${data[index].primaryImage}`} alt="" />
+    <>
+      <Carousel autoPlay={slide} interval={10000} infiniteLoop={true} showThumbs={false}>
+        {data.map((key, index) => (
+          <div key={data[index]?.objectID} onClick={() => onClickButton(data[index]?.objectID)}>
+            <img src={`${data[index]?.primaryImage}`} alt="" style={imageStyles}></img>
           </div>
+        ))}
+      </Carousel>
 
-          <Modal isOpen={show} onRequestClose={closeModal} style={customStyles}>
-            <h1>{details.title}</h1>
-            <h3>{'Department: ' + details.department}</h3>
-            <p>
-              {'Accession Number - Year: ' +
-                details.accessionNumber +
-                ' - ' +
-                details.accessionYear}
-            </p>
-            <p>{'Culture: ' + details.culture}</p>
-            <p>{'Period: ' + details.period}</p>
-            <p>
-              {'Medium: ' + details.medium}
-              {}
-            </p>
-            <p>{'Dimensions: ' + details.dimensions}</p>
-            <p>{'Region : ' + details.region}</p>
-            <p>{details.creditLine}</p>
-            <button onClick={closeModal}>Close</button>
-          </Modal>
-        </>
-      ))}
-    </Carousel>
+      <Modal isOpen={show} onRequestClose={() => closeModal()} style={modalStyles}>
+        <h1>{details?.title}</h1>
+        <h3>{'Department: ' + details?.department}</h3>
+        <p>
+          {'Accession Number - Year: ' + details?.accessionNumber + ' - ' + details?.accessionYear}
+        </p>
+        <p>{'Culture: ' + details?.culture}</p>
+        <p>{'Period: ' + details?.period}</p>
+        <p>{'Medium: ' + details?.medium}</p>
+        <p>{'Dimensions: ' + details?.dimensions}</p>
+        <p>{'Region : ' + details?.region}</p>
+        <p>{details?.creditLine}</p>
+        <button onClick={() => closeModal()}>Close</button>
+      </Modal>
+    </>
   );
 }
 
