@@ -4,10 +4,16 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import { Carousel } from 'react-responsive-carousel';
 import Loader from 'react-loader-spinner';
 import Modal from 'react-modal';
+import useScreenOrientation from 'react-hook-screen-orientation';
 
 import { fetchPaintingDetails } from './api';
 import { getAllPaintings } from './utils';
-import { imageStyles, loadingStyles, modalStyles } from './styles';
+import { imageLandscapeStyles, imagePotraitStyles, loadingStyles, modalStyles } from './styles';
+
+function isLandscape() {
+  console.log('landscape');
+  return window.orientation === 90 || window.orientation === -90;
+}
 
 Modal.setAppElement('#root');
 
@@ -17,6 +23,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [slide, setSlide] = useState(true);
   const [show, setShow] = useState(false);
+
+  const screenOrientation = useScreenOrientation();
 
   const fetchData = async () => {
     const paintings = await getAllPaintings();
@@ -50,7 +58,15 @@ function App() {
       <Carousel autoPlay={slide} interval={10000} infiniteLoop={true} showThumbs={false}>
         {data.map((key, index) => (
           <div key={data[index]?.objectID} onClick={() => onClickButton(data[index]?.objectID)}>
-            <img src={`${data[index]?.primaryImage}`} alt="" style={imageStyles}></img>
+            <img
+              src={`${data[index]?.primaryImage}`}
+              alt=""
+              style={
+                screenOrientation === 'landscape-primary' ||
+                screenOrientation === 'landscape-secondary'
+                  ? imageLandscapeStyles
+                  : imagePotraitStyles
+              }></img>
           </div>
         ))}
       </Carousel>

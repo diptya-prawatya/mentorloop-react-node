@@ -1,6 +1,12 @@
-export const imageStyles = {
+export const imageLandscapeStyles = {
   height: '1200px',
   width: '1920px',
+  margin: 'auto'
+};
+
+export const imagePotraitStyles = {
+  height: '1920px',
+  width: '1200px',
   margin: 'auto'
 };
 
